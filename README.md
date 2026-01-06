@@ -42,19 +42,27 @@ Forensic Analysis → Template Encoding → Noise Injection → Ground Truth
 ```mermaid
 flowchart TB
     subgraph S1["STAGE 1: FORENSIC ANALYSIS"]
-        A1["14 platforms → Grid styles, fonts, spacing"]
+        A1["14 property management platforms"]
+        A2["Grid styles, fonts, spacing patterns"]
+        A1 --> A2
     end
 
     subgraph S2["STAGE 2: TEMPLATE ENCODING"]
-        B1["14 vendors | 6 tables | 5 layouts"]
+        B1["Platform-specific rendering rules"]
+        B2["14 vendors | 6 tables | 5 layouts"]
+        B1 --> B2
     end
 
     subgraph S3["STAGE 3: NOISE INJECTION"]
-        C1["80% nominal | 20% edge-case"]
+        C1["Stratified degradation curriculum"]
+        C2["80% nominal | 20% edge-case"]
+        C1 --> C2
     end
 
     subgraph S4["STAGE 4: GROUND TRUTH"]
-        D1["Region → Row → Token → Cell"]
+        D1["5 JSONL label files (~760 MB)"]
+        D2["Region → Row → Token → Cell"]
+        D1 --> D2
     end
 
     S1 --> S2 --> S3 --> S4
