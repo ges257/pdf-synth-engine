@@ -6,20 +6,28 @@ The PDF Synth Engine is a four-stage pipeline that reverse-engineers real PDF co
 
 ```mermaid
 flowchart TB
-    subgraph S1["STAGE 1: FORENSIC ANALYSIS"]
-        A1["14 platforms → Vendor-specific rendering rules"]
+    subgraph S1["Stage 1: Forensic Analysis"]
+        A1["14 property management platforms"]
+        A2["Grid styles, fonts, spacing patterns"]
+        A1 --> A2
     end
 
-    subgraph S2["STAGE 2: TEMPLATE ENCODING"]
-        B1["14 vendors | 6 tables | 5 layouts"]
+    subgraph S2["Stage 2: Template Encoding"]
+        B1["Platform-specific rendering rules"]
+        B2["14 vendors | 6 tables | 5 layouts"]
+        B1 --> B2
     end
 
-    subgraph S3["STAGE 3: NOISE INJECTION"]
-        C1["80% nominal | 20% edge-case"]
+    subgraph S3["Stage 3: Noise Injection"]
+        C1["Stratified degradation curriculum"]
+        C2["80% nominal | 20% edge-case"]
+        C1 --> C2
     end
 
-    subgraph S4["STAGE 4: GROUND TRUTH"]
-        D1["5 JSONL files → Region | Row | Token | Cell"]
+    subgraph S4["Stage 4: Ground Truth"]
+        D1["5 JSONL label files (~760 MB)"]
+        D2["Region → Row → Token → Cell"]
+        D1 --> D2
     end
 
     S1 --> S2 --> S3 --> S4
@@ -31,7 +39,7 @@ flowchart TB
     style S3 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
     style S4 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
     style E fill:#A78BFA,stroke:#A78BFA,color:#0D1B2A
-    linkStyle default stroke:#A78BFA,stroke-width:2px
+    linkStyle 0,1,2,3 stroke:#FFFFFF,stroke-width:2px
 ```
 
 ---
