@@ -4,48 +4,45 @@
 
 The PDF Synth Engine is a four-stage pipeline that reverse-engineers real PDF construction mechanisms to generate structurally accurate synthetic training data.
 
-```
-+---------------------------------------------------------------------+
-|  STAGE 1: FORENSIC ANALYSIS                                          |
-|  -----------------------------                                       |
-|  Input:  Real PDFs from 14 property management platforms             |
-|  Method: Structural pattern extraction, grid analysis                |
-|  Output: Vendor-specific rendering rules (fonts, spacing, grids)     |
-+---------------------------------------------------------------------+
-                              |
-                              v
-+---------------------------------------------------------------------+
-|  STAGE 2: TEMPLATE ENCODING                                          |
-|  -------------------------                                           |
-|  Input:  Extracted patterns from Stage 1                             |
-|  Task:   Encode platform-specific rendering into Python classes      |
-|  Output: 14 vendor styles, 6 table types, 5 layout variants         |
-+---------------------------------------------------------------------+
-                              |
-                              v
-+---------------------------------------------------------------------+
-|  STAGE 3: NOISE INJECTION                                            |
-|  -----------------------                                             |
-|  Input:  Clean synthetic PDFs                                        |
-|  Task:   Apply stratified degradation curriculum                     |
-|  Output: Degraded PDFs matching real-world scan quality              |
-|  Curriculum: 80% nominal (L1-L3), 20% edge-case (L4-L5)             |
-+---------------------------------------------------------------------+
-                              |
-                              v
-+---------------------------------------------------------------------+
-|  STAGE 4: GROUND TRUTH GENERATION                                    |
-|  -------------------------------                                     |
-|  Input:  Rendered PDFs with known structure                          |
-|  Task:   Generate pixel-perfect labels at 4 hierarchy levels         |
-|  Output: 5 JSONL files (Region, Row, Token, Cell, Document)         |
-+---------------------------------------------------------------------+
-                              |
-                              v
-                    +-----------------+
-                    |  GLASS Training |
-                    |  (3 ML models)  |
-                    +-----------------+
+```mermaid
+flowchart TB
+    subgraph S1["STAGE 1: FORENSIC ANALYSIS"]
+        A1["Real PDFs from 14 platforms"]
+        A2["Structural pattern extraction"]
+        A3["Vendor-specific rendering rules"]
+        A1 --> A2 --> A3
+    end
+
+    subgraph S2["STAGE 2: TEMPLATE ENCODING"]
+        B1["Extracted patterns"]
+        B2["Python class encoding"]
+        B3["14 vendors | 6 tables | 5 layouts"]
+        B1 --> B2 --> B3
+    end
+
+    subgraph S3["STAGE 3: NOISE INJECTION"]
+        C1["Clean synthetic PDFs"]
+        C2["Stratified degradation"]
+        C3["80% nominal | 20% edge-case"]
+        C1 --> C2 --> C3
+    end
+
+    subgraph S4["STAGE 4: GROUND TRUTH"]
+        D1["Rendered PDFs"]
+        D2["Pixel-perfect labels"]
+        D3["5 JSONL output files"]
+        D1 --> D2 --> D3
+    end
+
+    S1 --> S2 --> S3 --> S4
+
+    S4 --> E["GLASS Training Pipeline"]
+
+    style S1 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S2 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S3 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S4 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style E fill:#A78BFA,stroke:#A78BFA,color:#0D1B2A
 ```
 
 ---
@@ -53,6 +50,29 @@ The PDF Synth Engine is a four-stage pipeline that reverse-engineers real PDF co
 ## Stage 1: Forensic Analysis
 
 **Objective:** Extract structural patterns from real property management software outputs
+
+```mermaid
+flowchart LR
+    subgraph Input["Source Documents"]
+        P1["AKAM PDFs"]
+        P2["Yardi PDFs"]
+        P3["Buildium PDFs"]
+        P4["+ 11 more vendors"]
+    end
+
+    subgraph Analysis["Pattern Extraction"]
+        E1["Font detection"]
+        E2["Grid style analysis"]
+        E3["Spacing measurement"]
+        E4["Color extraction"]
+    end
+
+    subgraph Output["Vendor Profiles"]
+        O1["14 style configs"]
+    end
+
+    Input --> Analysis --> Output
+```
 
 **Analyzed Platforms:**
 
@@ -85,43 +105,69 @@ The PDF Synth Engine is a four-stage pipeline that reverse-engineers real PDF co
 
 ### Module Pipeline
 
-```
-config.py                     # Load YAML configuration
-    |
-    v
-chart_of_accounts.py          # Generate GL codes per mask format
-    |
-    v
-ledger_generator.py           # Synthesize financial transactions
-    |
-    v
-table_templates.py            # Select table type schema
-    |
-    v
-vendor_styles.py              # Apply vendor visual profile
-    |
-    v
-layout_engine.py              # Compute page geometry
-    |
-    v
-pdf_renderer.py               # Generate PDF via ReportLab
-    |
-    v
-labels_writer.py              # Serialize ground truth
+```mermaid
+flowchart TB
+    subgraph Config["Configuration"]
+        cfg["config.py"]
+    end
+
+    subgraph Data["Data Generation"]
+        coa["chart_of_accounts.py"]
+        led["ledger_generator.py"]
+        com["companies.py"]
+    end
+
+    subgraph Structure["Structure Definition"]
+        tpl["table_templates.py"]
+        ven["vendor_styles.py"]
+        lay["layout_engine.py"]
+    end
+
+    subgraph Render["PDF Output"]
+        pdf["pdf_renderer.py"]
+        non["non_table_regions.py"]
+    end
+
+    subgraph Labels["Ground Truth"]
+        lab["labels_writer.py"]
+    end
+
+    subgraph Orchestration["CLI"]
+        cli["cli.py"]
+    end
+
+    cfg --> cli
+    cli --> coa --> led
+    cli --> tpl --> ven --> lay
+    com --> led
+    lay --> pdf
+    non --> pdf
+    pdf --> lab
+
+    style Config fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Data fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Structure fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Render fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Labels fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Orchestration fill:#A78BFA,stroke:#A78BFA,color:#0D1B2A
 ```
 
 ### Module Responsibilities
 
-| Module | Lines | Primary Responsibility |
-|--------|-------|------------------------|
-| `pdf_renderer.py` | ~1,600 | Core PDF generation with ReportLab; handles all 5 layout types |
-| `cli.py` | ~400 | Document generation orchestration; sampling logic |
-| `table_templates.py` | ~350 | 6 table type schemas; column specifications |
-| `vendor_styles.py` | ~300 | 14 vendor visual profiles; grid styles |
-| `layout_engine.py` | ~250 | Page layout computation; bbox calculation |
-| `degradation.py` | ~200 | Parametric degradation engine |
-| `ledger_generator.py` | ~180 | Financial transaction synthesis |
-| `labels_writer.py` | ~230 | 5 JSONL output formats |
+| Module | Size | Primary Responsibility |
+|--------|------|------------------------|
+| `pdf_renderer.py` | 117 KB | Core PDF generation with ReportLab; handles all 5 layout types |
+| `table_templates.py` | 24 KB | 6 table type schemas; column specifications |
+| `labels_writer.py` | 20 KB | 5 JSONL output formats |
+| `cli.py` | 15 KB | Document generation orchestration; sampling logic |
+| `ledger_generator.py` | 15 KB | Financial transaction synthesis |
+| `companies.py` | 11 KB | Company entity generation |
+| `layout_engine.py` | 11 KB | Page layout computation; bbox calculation |
+| `non_table_regions.py` | 11 KB | Non-table content generation |
+| `vendor_styles.py` | 9 KB | 14 vendor visual profiles; grid styles |
+| `degradation.py` | 6 KB | Parametric degradation engine |
+| `chart_of_accounts.py` | 5 KB | GL code generation |
+| `config.py` | 5 KB | YAML configuration loading |
 
 ### Table Types
 
@@ -135,6 +181,15 @@ labels_writer.py              # Serialize ground truth
 | GL | General Ledger | Date, Reference, Debit, Credit, Balance |
 
 ### Layout Types
+
+```mermaid
+pie title Layout Distribution
+    "HORIZONTAL_LEDGER" : 55
+    "MATRIX_BUDGET" : 15
+    "SPLIT_LEDGER" : 10
+    "VERTICAL_KEY_VALUE" : 10
+    "RAGGED_PSEUDOTABLE" : 10
+```
 
 | Layout | Distribution | Rendering Method |
 |--------|--------------|------------------|
@@ -152,6 +207,14 @@ labels_writer.py              # Serialize ground truth
 
 ### Degradation Parameters
 
+```mermaid
+xychart-beta
+    title "Degradation Intensity by Level"
+    x-axis ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
+    y-axis "Intensity %" 0 --> 100
+    bar [0, 20, 40, 70, 100]
+```
+
 | Parameter | Level 1 (Clean) | Level 3 (Moderate) | Level 5 (Extreme) |
 |-----------|-----------------|--------------------|--------------------|
 | Position Jitter | 0.0 pt | 2.0 pt | 5.0 pt |
@@ -164,15 +227,24 @@ labels_writer.py              # Serialize ground truth
 
 ### Stratified Curriculum
 
-| Level | Percentage | Description |
-|-------|------------|-------------|
-| 1 | 20% | Clean (nominal baseline) |
-| 2 | 25% | Mild (nominal) |
-| 3 | 25% | Moderate (nominal) |
-| 4 | 20% | Heavy (edge case) |
-| 5 | 10% | Extreme (edge case) |
+```mermaid
+pie title Curriculum Distribution (80/20 Split)
+    "Level 1 - Clean" : 20
+    "Level 2 - Mild" : 25
+    "Level 3 - Moderate" : 25
+    "Level 4 - Heavy" : 20
+    "Level 5 - Extreme" : 10
+```
 
-**Curriculum Split:** 80% nominal (Levels 1-3), 20% edge-case (Levels 4-5)
+| Level | Percentage | Category |
+|-------|------------|----------|
+| 1 | 20% | Nominal |
+| 2 | 25% | Nominal |
+| 3 | 25% | Nominal |
+| 4 | 20% | Edge-case |
+| 5 | 10% | Edge-case |
+
+**Curriculum Split:** 70% nominal (Levels 1-3), 30% edge-case (Levels 4-5)
 
 ---
 
@@ -182,12 +254,46 @@ labels_writer.py              # Serialize ground truth
 
 ### Label Hierarchy
 
-```
-Document
-└── Region (TABLE | NON_TABLE)
-    └── Row (HEADER | BODY | SUBTOTAL_TOTAL | NOTE)
-        └── Token (DATE | VENDOR | ACCOUNT | AMOUNT | OTHER | ...)
-            └── Cell (precise bbox + text + semantics)
+```mermaid
+flowchart TB
+    subgraph Doc["Document"]
+        D["documents.jsonl"]
+    end
+
+    subgraph Region["Region (Model 1)"]
+        R1["TABLE"]
+        R2["NON_TABLE"]
+    end
+
+    subgraph Row["Row (Model 2)"]
+        RW1["HEADER"]
+        RW2["BODY"]
+        RW3["SUBTOTAL_TOTAL"]
+        RW4["NOTE"]
+    end
+
+    subgraph Token["Token (Model 3)"]
+        T1["DATE"]
+        T2["VENDOR"]
+        T3["ACCOUNT"]
+        T4["AMOUNT"]
+        T5["OTHER"]
+    end
+
+    subgraph Cell["Cell"]
+        C["Full ground truth"]
+    end
+
+    Doc --> Region
+    Region --> Row
+    Row --> Token
+    Token --> Cell
+
+    style Doc fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Region fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Row fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Token fill:#0D1B2A,stroke:#A78BFA,color:#A3B8CC
+    style Cell fill:#A78BFA,stroke:#A78BFA,color:#0D1B2A
 ```
 
 ### Output Files
@@ -231,6 +337,7 @@ pdf-synth-engine/
 │       ├── ledger_generator.py       # Transaction synthesis
 │       ├── table_templates.py        # Table schemas
 │       ├── vendor_styles.py          # Vendor profiles
+│       ├── companies.py              # Company generation
 │       ├── cli.py                    # Orchestration
 │       ├── config.py                 # YAML configuration
 │       ├── labels_writer.py          # Label serialization
