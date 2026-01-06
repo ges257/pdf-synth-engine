@@ -1,0 +1,57 @@
+num_pdfs: 10
+seed: 42
+period_start: "2025-03-01"
+period_end: "2025-03-31"
+out_dir: "out"
+
+table_mix:
+  CASH_OUT: [0.15, 0.20]
+  CASH_IN: [0.15, 0.20]
+  BUDGET: [0.20, 0.25]
+  UNPAID: [0.10, 0.15]
+  AGING: [0.10, 0.15]
+  GL: [0.15, 0.20]
+
+vendor_distribution:
+  AKAM_OLD: 0.10
+  AKAM_NEW: 0.10
+  DOUGLAS: 0.10
+  FIRSTSERVICE: 0.10
+  LINDENWOOD: 0.10
+  YARDI: 0.10
+  APPFOLIO: 0.10
+  BUILDIUM: 0.10
+  MDS: 0.05
+  CINC: 0.05
+  OTHER: 0.10
+
+property_type_distribution:
+  CONDO: 0.70
+  RENTAL: 0.20
+  MIXED: 0.10
+
+gl_mask_distribution:
+  "NNNN": 0.30
+  "NNNNN": 0.30
+  "NN-NNNN-NN": 0.30
+  "NNNNNN": 0.10
+
+degradation_distribution:
+  1: 0.20
+  2: 0.25
+  3: 0.25
+  4: 0.20
+  5: 0.10
+
+# Layout type distribution (per Appendix C)
+layout_distribution:
+  horizontal_ledger: 0.55
+  split_ledger: 0.10
+  vertical_key_value: 0.10
+  matrix_budget: 0.15
+  ragged_pseudotable: 0.10
+
+# Page orientation distribution
+orientation_distribution:
+  portrait: 0.60
+  landscape: 0.40
