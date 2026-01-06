@@ -31,6 +31,7 @@ flowchart TB
     style S3 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
     style S4 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
     style E fill:#A78BFA,stroke:#A78BFA,color:#0D1B2A
+    linkStyle default stroke:#A78BFA,stroke-width:2px
 ```
 
 ---
