@@ -7,31 +7,19 @@ The PDF Synth Engine is a four-stage pipeline that reverse-engineers real PDF co
 ```mermaid
 flowchart TB
     subgraph S1["STAGE 1: FORENSIC ANALYSIS"]
-        A1["Real PDFs from 14 platforms"]
-        A2["Structural pattern extraction"]
-        A3["Vendor-specific rendering rules"]
-        A1 --> A2 --> A3
+        A1["14 platforms → Vendor-specific rendering rules"]
     end
 
     subgraph S2["STAGE 2: TEMPLATE ENCODING"]
-        B1["Extracted patterns"]
-        B2["Python class encoding"]
-        B3["14 vendors | 6 tables | 5 layouts"]
-        B1 --> B2 --> B3
+        B1["14 vendors | 6 tables | 5 layouts"]
     end
 
     subgraph S3["STAGE 3: NOISE INJECTION"]
-        C1["Clean synthetic PDFs"]
-        C2["Stratified degradation"]
-        C3["80% nominal | 20% edge-case"]
-        C1 --> C2 --> C3
+        C1["80% nominal | 20% edge-case"]
     end
 
     subgraph S4["STAGE 4: GROUND TRUTH"]
-        D1["Rendered PDFs"]
-        D2["Pixel-perfect labels"]
-        D3["5 JSONL output files"]
-        D1 --> D2 --> D3
+        D1["5 JSONL files → Region | Row | Token | Cell"]
     end
 
     S1 --> S2 --> S3 --> S4
