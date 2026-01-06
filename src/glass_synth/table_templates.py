@@ -46,10 +46,12 @@ class SemanticType(Enum):
 
 class RowType(Enum):
     """Row types for row classification (Model 2)."""
-    HEADER = "HEADER"
-    BODY = "BODY"
-    SUBTOTAL_TOTAL = "SUBTOTAL_TOTAL"
-    NOTE = "NOTE"
+    TEMPLATE = "TEMPLATE"           # Design layer (company name, page numbers) - removed before Model 2
+    PAGE_HEADER = "PAGE_HEADER"     # Section/report title ("Collection Status 245 East...")
+    HEADER = "HEADER"               # Column headers (can be multi-line)
+    BODY = "BODY"                   # Transaction data rows
+    SUBTOTAL_TOTAL = "SUBTOTAL_TOTAL"  # Actual totals with keywords
+    NOTE = "NOTE"                   # Footnotes, annotations
 
 
 @dataclass

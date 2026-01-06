@@ -13,6 +13,7 @@ class GridStyle(Enum):
     MINIMAL = "minimal"                # Just header/footer lines
     ALTERNATING_ROWS = "alternating"   # Zebra striping
     BOX_BORDERS = "box_borders"        # Outer border + header separator
+    LINDENWOOD_TWO_SECTION = "lindenwood_two_section"  # Two-section: LEFT box + RIGHT text header
 
 
 @dataclass
@@ -42,8 +43,8 @@ VENDOR_STYLES: Dict[str, VendorStyle] = {
         font_size=8,
         header_font_size=9,
         row_height=12.0,
-        grid_style=GridStyle.FULL_GRID,
-        grid_line_width=0.75,
+        grid_style=GridStyle.BOX_BORDERS,  # Simple box borders
+        grid_line_width=1.0,
         grid_color=black,
         header_bg_color=HexColor("#D0D0D0"),
         header_text_color=black,
@@ -102,13 +103,13 @@ VENDOR_STYLES: Dict[str, VendorStyle] = {
     ),
     "LINDENWOOD": VendorStyle(
         name="LINDENWOOD",
-        font_family="Helvetica",
+        font_family="Courier",
         font_size=9,
         header_font_size=10,
         row_height=14.0,
-        grid_style=GridStyle.MINIMAL,
-        grid_line_width=0.5,
-        grid_color=HexColor("#CCCCCC"),
+        grid_style=GridStyle.BOX_BORDERS,  # SIMPLIFIED: Using simple box borders for now
+        grid_line_width=0.75,
+        grid_color=black,
         header_bg_color=white,
         header_text_color=black,
         alternating_row_color=white,
@@ -170,7 +171,7 @@ VENDOR_STYLES: Dict[str, VendorStyle] = {
         font_size=8,
         header_font_size=9,
         row_height=11.0,
-        grid_style=GridStyle.FULL_GRID,
+        grid_style=GridStyle.FULL_GRID,  # Full grid lines
         grid_line_width=0.5,
         grid_color=black,
         header_bg_color=HexColor("#CCCCCC"),

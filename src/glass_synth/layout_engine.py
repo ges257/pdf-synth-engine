@@ -128,10 +128,29 @@ class LayoutEngine:
         template: TableTemplate,
         num_rows: int,
         include_title: bool = True,
-        include_header: bool = True
+        include_header: bool = True,
+        include_template_header: bool = True,
+        include_page_header: bool = True,
     ) -> float:
-        """Compute total table height including title, header, and data rows."""
+        """Compute total table height including all components.
+
+        Args:
+            template: Table template with row_height
+            num_rows: Number of data rows
+            include_title: Include title row space
+            include_header: Include column header row space
+            include_template_header: Include TEMPLATE header space (~65-80pt)
+            include_page_header: Include PAGE_HEADER space (~21pt)
+        """
         height = 0.0
+
+        # Template header (vendor info at top) - typically 4 lines at 15pt + padding
+        if include_template_header:
+            height += 80  # Conservative estimate for 4-line template header
+
+        # PAGE_HEADER (section title like "CASH RECEIPTS")
+        if include_page_header:
+            height += template.row_height * 1.5 + 10  # PAGE_HEADER height + padding
 
         if include_title:
             height += template.row_height * 1.5  # Title row is taller
@@ -173,11 +192,15 @@ class LayoutEngine:
         May trigger a page break if needed.
         """
         # Calculate height needed
+        # For SPLIT_LEDGER right panel, skip template header (already drawn by left panel)
+        include_template = not is_split_right
         table_height = self.compute_table_height(
             template,
             num_data_rows,
             include_title=True,
-            include_header=True
+            include_header=True,
+            include_template_header=include_template,
+            include_page_header=True,  # PAGE_HEADER is drawn for each table
         )
 
         # For SPLIT_LEDGER, tables are side-by-side so use half width
