@@ -39,33 +39,38 @@ Forensic Analysis → Template Encoding → Noise Injection → Ground Truth
 
 ## Four-Stage Pipeline
 
-```
-+------------------------------------------------------------+
-|  STAGE 1: FORENSIC ANALYSIS                                 |
-|  Target: 14 property management platforms                   |
-|  Output: Grid styles, fonts, spacing patterns               |
-+------------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------------+
-|  STAGE 2: TEMPLATE ENCODING                                 |
-|  Task: Encode platform-specific rendering rules             |
-|  Output: 14 vendor styles, 6 table types, 5 layouts        |
-+------------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------------+
-|  STAGE 3: NOISE INJECTION                                   |
-|  Task: Apply stratified degradation curriculum              |
-|  Distribution: 80% nominal (L1-L3), 20% edge-case (L4-L5)  |
-+------------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------------+
-|  STAGE 4: GROUND TRUTH GENERATION                           |
-|  Output: 5 JSONL label files (~760 MB)                     |
-|  Hierarchy: Region -> Row -> Token -> Cell                 |
-+------------------------------------------------------------+
+```mermaid
+flowchart TB
+    subgraph S1["STAGE 1: FORENSIC ANALYSIS"]
+        A1["14 property management platforms"]
+        A2["Grid styles, fonts, spacing patterns"]
+        A1 --> A2
+    end
+
+    subgraph S2["STAGE 2: TEMPLATE ENCODING"]
+        B1["Platform-specific rendering rules"]
+        B2["14 vendors | 6 tables | 5 layouts"]
+        B1 --> B2
+    end
+
+    subgraph S3["STAGE 3: NOISE INJECTION"]
+        C1["Stratified degradation curriculum"]
+        C2["80% nominal | 20% edge-case"]
+        C1 --> C2
+    end
+
+    subgraph S4["STAGE 4: GROUND TRUTH"]
+        D1["5 JSONL label files (~760 MB)"]
+        D2["Region → Row → Token → Cell"]
+        D1 --> D2
+    end
+
+    S1 --> S2 --> S3 --> S4
+
+    style S1 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S2 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S3 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S4 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
 ```
 
 ---
@@ -104,15 +109,16 @@ Synthetic data was used to train GLASS extraction models:
 pdf-synth-engine/
 ├── src/
 │   └── glass_synth/
-│       ├── pdf_renderer.py           # ReportLab PDF construction
+│       ├── pdf_renderer.py           # ReportLab PDF construction (117 KB)
 │       ├── layout_engine.py          # Bbox computation
 │       ├── degradation.py            # 5-level noise injection
 │       ├── ledger_generator.py       # Accounting data synthesis
 │       ├── table_templates.py        # 6 table types, 13 semantic types
 │       ├── vendor_styles.py          # 14 vendor profiles
+│       ├── companies.py              # Company entity generation
 │       ├── cli.py                    # Orchestration
 │       ├── config.py                 # YAML configuration
-│       ├── labels_writer.py          # Ground-truth generation
+│       ├── labels_writer.py          # Ground-truth generation (20 KB)
 │       ├── chart_of_accounts.py      # GL codes
 │       └── non_table_regions.py      # Non-table regions
 ├── configs/
