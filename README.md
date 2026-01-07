@@ -10,6 +10,8 @@
 ![ReportLab](https://img.shields.io/badge/ReportLab-PDF_Generation-A3B8CC?style=flat-square)
 ![Synthetic Data](https://img.shields.io/badge/Synthetic_Data-ML_Training-A78BFA?style=flat-square)
 
+[Architecture](ARCHITECTURE.md) · [Challenges](CHALLENGES.md) · [Learnings](LEARNINGS.md)
+
 </div>
 
 ---
