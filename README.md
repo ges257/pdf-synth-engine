@@ -4,7 +4,10 @@
 
 **Reverse-Engineered PDF Reports for [GLASS Table Extraction System](https://github.com/ges257/glass-extraction)**
 
-![Python](https://img.shields.io/badge/Python-3.10+-A3B8CC?style=flat-square)
+[![Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)]
+[![Stack](https://img.shields.io/badge/Stack-Python_|_ReportLab-0D1B2A?style=for-the-badge)]
+
+![Python](https://img.shields.io/badge/Python-3.10+-A3B8CC?style=flat-square&logo=python&logoColor=0D1B2A)
 ![ReportLab](https://img.shields.io/badge/ReportLab-PDF_Generation-A3B8CC?style=flat-square)
 ![Synthetic Data](https://img.shields.io/badge/Synthetic_Data-ML_Training-A78BFA?style=flat-square)
 
