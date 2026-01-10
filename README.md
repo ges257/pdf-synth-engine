@@ -1,8 +1,12 @@
 ![Header](https://capsule-render.vercel.app/api?type=rect&color=0D1B2A&height=100&text=Synthetic%20Data%20Engine&fontSize=36&fontColor=A78BFA)
 
+# PDF Synth Engine — Structural PDF Synthesis + Ground-Truth Labels
+
+Reverse-engineered financial report PDFs **at the object-structure level** (not just visual similarity), with a degradation curriculum and region/row/token/cell labels for training table extraction systems.
+
 <div align="center">
 
-**Reverse-Engineered PDF Reports for [GLASS Table Extraction System](https://github.com/ges257/glass-extraction)**
+**For [GLASS Table Extraction System](https://github.com/ges257/glass-extraction)**
 
 [![Stack](https://img.shields.io/badge/Stack-Python_|_ReportLab-0D1B2A?style=for-the-badge)]
 
@@ -18,11 +22,14 @@
 
 ## Outcome
 
-Generated 50,000+ structurally accurate synthetic financial reports. Validated via successful model transfer from purely synthetic training to real-world production documents, effectively bypassing strict vendor privacy constraints that prevented access to proprietary financial data.
+Generated **50,000+ structurally-faithful synthetic financial reports** plus **~760MB of ground-truth labels**.
+Validated by **training on 100% synthetic data** and transferring to **real production documents** (97%+ table detection, 99.3% row classification) — enabling model development despite strict vendor privacy constraints.
 
 ## Technical Build
 
-Reverse-engineered PDF construction mechanisms by analyzing technical documentation of source reporting platforms and conducting forensic audits of existing documents. Built a generative pipeline that replicates how these systems construct PDFs at the object level—not just visual appearance—ensuring synthetic outputs match the structural parsing behavior of real reports. Implemented multi-level noise injection (layout, formatting, content) within a stratified curriculum (80% nominal, 20% edge-cases).
+Reverse-engineered how major reporting platforms **construct PDFs at the object/layout level**, then encoded those rules into deterministic generators so synthetic PDFs match the **parsing behavior** of real reports (not just how they look).
+
+Added a curriculum-based degradation system (layout / formatting / content noise) with an **80/20 nominal vs. edge-case mix** to harden downstream extractors.
 
 ---
 
