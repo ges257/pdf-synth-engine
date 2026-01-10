@@ -1,12 +1,8 @@
 ![Header](https://capsule-render.vercel.app/api?type=rect&color=0D1B2A&height=100&text=Synthetic%20Data%20Engine&fontSize=36&fontColor=A78BFA)
 
-# PDF Synth Engine — Structural PDF Synthesis + Ground-Truth Labels
-
-Reverse-engineered financial report PDFs **at the object-structure level** (not just visual similarity), with a degradation curriculum and region/row/token/cell labels for training table extraction systems.
-
 <div align="center">
 
-**For [GLASS Table Extraction System](https://github.com/ges257/glass-extraction)**
+**Reverse-Engineered PDF Reports for [GLASS Table Extraction System](https://github.com/ges257/glass-extraction)**
 
 [![Stack](https://img.shields.io/badge/Stack-Python_|_ReportLab-0D1B2A?style=for-the-badge)]
 
