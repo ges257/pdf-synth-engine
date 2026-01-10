@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Reverse-Engineered PDF Reports for [GLASS Table Extraction System](https://github.com/ges257/glass-extraction)**
+**Reverse-engineered financial report PDFs at the object-structure level (not just visual similarity), with a degradation curriculum and region/row/token/cell labels for training table extraction systems. (for [GLASS](https://github.com/ges257/glass))**
 
 [![Stack](https://img.shields.io/badge/Stack-Python_|_ReportLab-0D1B2A?style=for-the-badge)]
 
