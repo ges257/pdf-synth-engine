@@ -2,7 +2,9 @@
 
 <div align="center">
 
-**Reverse-engineered financial report PDFs at the object-structure level (not just visual similarity), with a degradation curriculum and region/row/token/cell labels for training table extraction systems. (for [GLASS](https://github.com/ges257/glass))**
+**Reverse-engineered financial report PDFs at the object-structure level (not just visual similarity), with a degradation curriculum and region/row/token/cell labels for training table extraction systems.**
+
+**(for [GLASS](https://github.com/ges257/glass))**
 
 ![Python](https://img.shields.io/badge/Python-3.10+-A3B8CC?style=flat-square&logo=python&logoColor=0D1B2A)
 ![ReportLab](https://img.shields.io/badge/ReportLab-PDF_Generation-A3B8CC?style=flat-square)
