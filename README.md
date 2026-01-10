@@ -20,6 +20,12 @@ Reverse-engineered financial report PDFs **at the object-structure level** (not 
 
 ---
 
+<div align="center">
+
+In 2026, the constraint is rarely "model code" — it's getting **enough high-quality, compliant data** to train, evaluate, and harden systems for production. This project is an *agentic data factory*:
+
+</div>
+
 ## Outcome
 
 Generated **50,000+ structurally-faithful synthetic financial reports** plus **~760MB of ground-truth labels**.
