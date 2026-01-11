@@ -20,8 +20,6 @@
 
 In 2026, the constraint is rarely "model code" — it's getting **enough high-quality, compliant data** to train, evaluate, and harden systems for production. This project is an **AGENTIC DATA FACTORY**
 
-This work maps directly to a variety of proprietary Agent methods I developed to push the LLMs — this includes but is not limited to — custom prompting, decomposition, long-horizon reliability via deterministic compilation, and curriculum design to improve downstream model performance.
-
 </div>
 
 ## Outcome
